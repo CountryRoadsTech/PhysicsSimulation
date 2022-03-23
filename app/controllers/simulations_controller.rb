@@ -15,6 +15,7 @@ class SimulationsController < ApplicationController
   # GET /simulations/new
   def new
     @simulation = Simulation.new
+    @simulation.build_universe
   end
 
   # GET /simulations/1/edit
@@ -64,6 +65,7 @@ class SimulationsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_simulation
     @simulation = Simulation.friendly.find(params[:id])
+    @universe = @simulation.universe
   rescue ActiveRecord::RecordNotFound
     # Render the 404 page if a slug was used that doesn't match any records.
     render file: "#{Rails.root}/public/404.html", status: :not_found and return
@@ -71,6 +73,8 @@ class SimulationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def simulation_params
-    params.require(:simulation).permit(:name, :description)
+    params.require(:simulation).permit(:name, :description, universe_attributes: [
+      :id, :start_time, :end_time, :timestep, :number_of_timesteps
+    ])
   end
 end

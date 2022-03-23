@@ -17,6 +17,10 @@
 #
 class Simulation < ApplicationRecord
   has_one :universe, inverse_of: :simulation
+  has_many :physics_bodies, through: :universe
+  accepts_nested_attributes_for :universe
+  accepts_nested_attributes_for :physics_bodies
+
   has_rich_text :description
 
   validates_presence_of :name
