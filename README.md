@@ -24,6 +24,12 @@ rails db:migrate
 rails db:seed
 ```
 
+* Finally, to launch the development server, run
+
+```bash
+bin/dev
+```
+
 ## Tests
 
 From the root directory, run
