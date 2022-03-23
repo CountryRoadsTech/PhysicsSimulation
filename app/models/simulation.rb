@@ -1,4 +1,22 @@
+# == Schema Information
+#
+# Table name: simulations
+#
+#  id               :uuid             not null, primary key
+#  computation_time :decimal(, )
+#  computed_at      :datetime
+#  name             :text             not null
+#  slug             :text
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+# Indexes
+#
+#  index_simulations_on_name  (name) UNIQUE
+#  index_simulations_on_slug  (slug) UNIQUE
+#
 class Simulation < ApplicationRecord
+  has_one :universe, inverse_of: :simulation
   has_rich_text :description
 
   validates_presense_of :name
