@@ -21,8 +21,9 @@
 #
 class Universe < ApplicationRecord
   belongs_to :simulation, inverse_of: :universe
+  has_many :physics_bodies, inverse_of: :universe
 
-  validates_presense_of :simulation, :start_time, :end_time, :timestep, :number_of_timesteps
+  validates_presence_of :simulation, :start_time, :end_time, :timestep, :number_of_timesteps
   validates :start_time, numericality: { greater_than_or_equal_to: 0 }
   validates :end_time, :timestep, :number_of_timesteps, numericality: { greater_than: 0 }
   validates :number_of_timesteps, numericality: { only_integer: true }
