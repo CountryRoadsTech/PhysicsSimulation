@@ -4,8 +4,8 @@ class CreateSimulations < ActiveRecord::Migration[7.0]
       t.text :name, null: false
       t.text :slug
       t.decimal :computation_time
+      
       t.datetime :computed_at
-
       t.timestamps
     end
 
