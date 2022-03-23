@@ -75,6 +75,8 @@ class SimulationsController < ApplicationController
   def simulation_params
     params.require(:simulation).permit(:name, :description, universe_attributes: [
       :id, :start_time, :end_time, :timestep, :number_of_timesteps
+    ], physics_bodies_attributes: [
+      :_destroy, :id, :name, :description, :initial_position_x, :initial_position_y, :initial_position_z, :initial_velocity_x, :initial_velocity_y, :initial_velocity_z, :initial_mass
     ])
   end
 end

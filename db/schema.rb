@@ -65,7 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_182057) do
   end
 
   create_table "physics_bodies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "universe_id", null: false
+    t.uuid "simulation_id", null: false
     t.text "name", null: false
     t.text "slug"
     t.decimal "initial_position_x", null: false
@@ -94,8 +94,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_182057) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_physics_bodies_on_name", unique: true
+    t.index ["simulation_id"], name: "index_physics_bodies_on_simulation_id"
     t.index ["slug"], name: "index_physics_bodies_on_slug", unique: true
-    t.index ["universe_id"], name: "index_physics_bodies_on_universe_id"
   end
 
   create_table "simulations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -122,6 +122,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_182057) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "physics_bodies", "universes"
+  add_foreign_key "physics_bodies", "simulations"
   add_foreign_key "universes", "simulations"
 end

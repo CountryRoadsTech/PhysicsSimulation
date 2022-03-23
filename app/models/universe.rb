@@ -21,7 +21,6 @@
 #
 class Universe < ApplicationRecord
   belongs_to :simulation, inverse_of: :universe
-  has_many :physics_bodies, inverse_of: :universe
 
   before_validation :set_missing_times
 

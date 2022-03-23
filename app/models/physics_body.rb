@@ -30,22 +30,24 @@
 #  velocities_z       :decimal(, )      default([]), is an Array
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  universe_id        :uuid             not null
+#  simulation_id      :uuid             not null
 #
 # Indexes
 #
-#  index_physics_bodies_on_name         (name) UNIQUE
-#  index_physics_bodies_on_slug         (slug) UNIQUE
-#  index_physics_bodies_on_universe_id  (universe_id)
+#  index_physics_bodies_on_name           (name) UNIQUE
+#  index_physics_bodies_on_simulation_id  (simulation_id)
+#  index_physics_bodies_on_slug           (slug) UNIQUE
 #
 # Foreign Keys
 #
-#  fk_rails_da7d4a33b1  (universe_id => universes.id)
+#  fk_rails_0453254253  (simulation_id => simulations.id)
 #
 class PhysicsBody < ApplicationRecord
-  belongs_to :universe, inverse_of: :physics_bodies
-  
+  belongs_to :simulation, inverse_of: :physics_bodies
+
   has_rich_text :description
+
+  after_create :initialize_state_arrays
 
   validates_presence_of :name, :initial_position_x, :initial_position_y, :initial_position_z, :initial_velocity_x, :initial_velocity_y, :initial_velocity_z, :initial_mass
   validates_uniqueness_of :name
@@ -55,5 +57,29 @@ class PhysicsBody < ApplicationRecord
 
   def should_generate_new_friendly_id?
     slug.blank? or name_changed?
+  end
+
+  private
+
+  # Initialize the state arrays with the correct length.
+  def initialize_state_arrays
+    l = self.simulation.universe.number_of_timesteps
+
+    self.positions_x = Array.new(l, nil)
+    self.positions_y = Array.new(l, nil)
+    self.positions_z = Array.new(l, nil)
+    self.velocities_x = Array.new(l, nil)
+    self.velocities_y = Array.new(l, nil)
+    self.velocities_z = Array.new(l, nil)
+    self.accelerations_x = Array.new(l, nil)
+    self.accelerations_y = Array.new(l, nil)
+    self.accelerations_z = Array.new(l, nil)
+    self.forces_x = Array.new(l, nil)
+    self.forces_y = Array.new(l, nil)
+    self.forces_z = Array.new(l, nil)
+    self.thrusts_x = Array.new(l, nil)
+    self.thrusts_y = Array.new(l, nil)
+    self.thrusts_z = Array.new(l, nil)
+    self.masses = Array.new(l, nil)
   end
 end

@@ -22,6 +22,7 @@
   </div>
 
   <div class="border-2 border-black rounded-lg">
+    <h2 class="text-xl">Universe Times</h2>
     <%= form.fields_for :universe do |universe_form| %>
     <div class="my-5">
       <%= universe_form.label :start_time %>
@@ -43,6 +44,25 @@
       <%= universe_form.number_field :number_of_timesteps, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
     <% end %>
+  </div>
+
+  <div class="border-2 border-black rounded-lg">
+    <h2 class="text-xl">Physics Bodies</h2>
+    <div data-controller="nested-form">
+      <template data-target='nested-form.template'>
+        <%= form.fields_for :physics_bodies, PhysicsBody.new, child_index: 'TEMPLATE_RECORD' do |physics_body| %>
+          <%= render 'physics_bodies/nested_form_fields', form: physics_body %>
+        <% end %>
+      </template>
+
+      <%= form.fields_for :physics_bodies do |physics_body| %>
+        <%= render 'physics_bodies/nested_form_fields', form: physics_body %>
+      <% end %>
+
+      <div data-target="nested-form.add_item">
+        <%= link_to "Add Physics Body", "#", data: { action: "nested-form#add_association" } %>
+      </div>
+    </div>
   </div>
 
   <div class="inline">

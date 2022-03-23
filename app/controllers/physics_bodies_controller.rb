@@ -25,25 +25,6 @@ class PhysicsBodiesController < ApplicationController
   def create
     @physics_body = PhysicsBody.new(physics_body_params)
 
-    # Initialize the state arrays with the correct length.
-    l = @physics_body.universe.number_of_timesteps
-    @physics_body.positions_x = Array.new(l, nil)
-    @physics_body.positions_y = Array.new(l, nil)
-    @physics_body.positions_z = Array.new(l, nil)
-    @physics_body.velocities_x = Array.new(l, nil)
-    @physics_body.velocities_y = Array.new(l, nil)
-    @physics_body.velocities_z = Array.new(l, nil)
-    @physics_body.accelerations_x = Array.new(l, nil)
-    @physics_body.accelerations_y = Array.new(l, nil)
-    @physics_body.accelerations_z = Array.new(l, nil)
-    @physics_body.forces_x = Array.new(l, nil)
-    @physics_body.forces_y = Array.new(l, nil)
-    @physics_body.forces_z = Array.new(l, nil)
-    @physics_body.thrusts_x = Array.new(l, nil)
-    @physics_body.thrusts_y = Array.new(l, nil)
-    @physics_body.thrusts_z = Array.new(l, nil)
-    @physics_body.masses = Array.new(l, nil)
-
     respond_to do |format|
       if @physics_body.save
         format.html { redirect_to physics_body_url(@physics_body), notice: "Physics body was successfully created." }
