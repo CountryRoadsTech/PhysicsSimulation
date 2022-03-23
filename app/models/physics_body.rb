@@ -59,6 +59,61 @@ class PhysicsBody < ApplicationRecord
     slug.blank? or name_changed?
   end
 
+  def positions
+    l = self.universe.number_of_timesteps
+    positions_array = Array.new(l, nil)
+
+    l.times do |t|
+      positions_array[t] = [self.positions_x[t], self.positions_y[t], self.positions_z[t]]
+    end
+
+    positions_array
+  end
+
+  def velocities
+    l = self.universe.number_of_timesteps
+    velocities_array = Array.new(l, nil)
+
+    l.times do |t|
+      velocities_array[t] = [self.velocities_x[t], self.velocities_y[t], self.velocities_z[t]]
+    end
+
+    velocities_array
+  end
+
+  def accelerations
+    l = self.universe.number_of_timesteps
+    accelerations_array = Array.new(l, nil)
+
+    l.times do |t|
+      accelerations_array[t] = [self.accelerations_x[t], self.accelerations_y[t], self.accelerations_z[t]]
+    end
+
+    accelerations_array
+  end
+
+  def forces
+    l = self.universe.number_of_timesteps
+    forces_array = Array.new(l, nil)
+
+    l.times do |t|
+      forces_array[t] = [self.forces_x[t], self.forces_y[t], self.forces_z[t]]
+    end
+
+    forces_array
+  end
+
+  def thrusts
+    l = self.universe.number_of_timesteps
+    thrusts_array = Array.new(l, nil)
+
+    l.times do |t|
+      thrusts_array[t] = [self.thrusts_x[t], self.thrusts_y[t], self.thrusts_z[t]]
+    end
+
+    thrusts_array
+  end
+
   private
 
   # Initialize the state arrays with the correct length.
