@@ -1,24 +1,35 @@
-# README
+# Physics Simulator
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A physics simulation website (mainly for spacecraft orbits and launches) using Ruby on Rails, Postgresql, Hotwire, StimulusJS, ThreeJS, and D3JS.
 
-Things you may want to cover:
+## Development Setup
 
-* Ruby version
+In order to develop this application on your local machine, follow these steps:
 
-* System dependencies
+* Install Ruby and its dependencies (see .ruby-version for the current Ruby version).
 
-* Configuration
+* Install PostgreSQL and its dependencies.
 
-* Database creation
+* Clone this repository.
 
-* Database initialization
+* From the root directory, run
 
-* How to run the test suite
+```bash
+bundle install
 
-* Services (job queues, cache servers, search engines, etc.)
+rails db:create
 
-* Deployment instructions
+rails db:migrate
 
-* ...
+rails db:seed
+```
+
+## Tests
+
+From the root directory, run
+
+```bash
+bundle exec rspec
+```
+
+to run all of the tests. Ensure all tests pass (and you add new tests for new code) before merging.
