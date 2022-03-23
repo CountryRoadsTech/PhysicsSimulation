@@ -23,15 +23,6 @@ class UniversesController < ApplicationController
   def create
     @universe = Universe.new(universe_params)
 
-    if @universe.end_time.blank? and @universe.timestep.present? and @universe.number_of_timesteps.present?
-      @universe.end_time = (@universe.start_time + (@universe.timestep * @universe.number_of_timesteps))
-    elsif @universe.end_time.present? and @universe.timestep.blank? and @universe.number_of_timesteps.present?
-      @universe.timestep = ((@universe.end_time - @universe.start_time) / @universe.number_of_timesteps)
-    elsif @universe.end_time.present? and @universe.timestep.present? and @universe.number_of_timesteps.blank?
-      @universe.number_of_timesteps = ((@universe.end_time - @universe.start_time) / @universe.timestep).ceil
-    end
-
-
     respond_to do |format|
       if @universe.save
         format.html { redirect_to universe_url(@universe), notice: "Universe was successfully created." }

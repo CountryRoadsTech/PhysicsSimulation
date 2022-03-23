@@ -44,6 +44,7 @@
 #
 class PhysicsBody < ApplicationRecord
   belongs_to :universe, inverse_of: :physics_bodies
+  
   has_rich_text :description
 
   validates_presence_of :name, :initial_position_x, :initial_position_y, :initial_position_z, :initial_velocity_x, :initial_velocity_y, :initial_velocity_z, :initial_mass
