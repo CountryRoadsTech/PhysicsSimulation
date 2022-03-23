@@ -57,6 +57,33 @@ gem "image_processing", "~> 1.2"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+
+  # RSpec is used as the application testing framework (and an alternative to the default Minitest).
+  gem "rspec-rails"
+  # Capybara is used to write integration/feature tests.
+  gem "capybara"
+  # Selenium Webdriver is used to simulate how a real user interacts with the web browser during testing.
+  gem "selenium-webdriver"
+  # Factory Bot is used as the application testing fixture/factory.
+  gem "factory_bot_rails"
+  # Faker is used to generate pseudorandom data.
+  gem "faker"
+  # Shoulda Matchers adds many common one-line RSpec test matchers.
+  gem "shoulda-matchers"
+
+  # Rubocop is used to enforce coding style through static analysis.
+  gem "rubocop", require: false
+  # Rubocop Rails adds Rail's specific checks to Rubocop.
+  gem "rubocop-rails", require: false
+  # Rubocop RSpec adds RSpec specific checks to Rubocop.
+  gem "rubocop-rspec", require: false
+  # Rubocop Rake adds Rake specific checks to Rubocop.
+  gem "rubocop-rake", require: false
+  # Rubocop Performance adds performance specific checks to Rubocop.
+  gem "rubocop-performance", require: false
+
+  # Brakeman is a static analysis tool used to detect security vulnerabilities.
+  gem "brakeman"
 end
 
 group :development do
@@ -70,4 +97,7 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+
+  # Annotate automatically adds a comment with the database schema to the top of relevant files.
+  gem "annotate"
 end
