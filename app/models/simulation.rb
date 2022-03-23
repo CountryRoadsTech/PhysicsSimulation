@@ -17,9 +17,9 @@
 #
 class Simulation < ApplicationRecord
   has_one :universe, inverse_of: :simulation
-  has_many :physics_bodies, through: :universe
+  has_many :physics_bodies, inverse_of: :simulation
   accepts_nested_attributes_for :universe
-  accepts_nested_attributes_for :physics_bodies
+  accepts_nested_attributes_for :physics_bodies, allow_destroy: true, reject_if: proc { |attr| attr['name'].blank? }
 
   has_rich_text :description
 
