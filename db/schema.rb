@@ -68,29 +68,29 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_182057) do
     t.uuid "simulation_id", null: false
     t.text "name", null: false
     t.text "slug"
-    t.decimal "initial_position_x", precision: 8, scale: 5, null: false
-    t.decimal "initial_position_y", precision: 8, scale: 5, null: false
-    t.decimal "initial_position_z", precision: 8, scale: 5, null: false
-    t.decimal "initial_velocity_x", precision: 8, scale: 5, null: false
-    t.decimal "initial_velocity_y", precision: 8, scale: 5, null: false
-    t.decimal "initial_velocity_z", precision: 8, scale: 5, null: false
-    t.decimal "initial_mass", precision: 8, scale: 5, null: false
-    t.decimal "positions_x", precision: 8, scale: 5, default: [], array: true
-    t.decimal "positions_y", precision: 8, scale: 5, default: [], array: true
-    t.decimal "positions_z", precision: 8, scale: 5, default: [], array: true
-    t.decimal "velocities_x", precision: 8, scale: 5, default: [], array: true
-    t.decimal "velocities_y", precision: 8, scale: 5, default: [], array: true
-    t.decimal "velocities_z", precision: 8, scale: 5, default: [], array: true
-    t.decimal "accelerations_x", precision: 8, scale: 5, default: [], array: true
-    t.decimal "accelerations_y", precision: 8, scale: 5, default: [], array: true
-    t.decimal "accelerations_z", precision: 8, scale: 5, default: [], array: true
-    t.decimal "forces_x", precision: 8, scale: 5, default: [], array: true
-    t.decimal "forces_y", precision: 8, scale: 5, default: [], array: true
-    t.decimal "forces_z", precision: 8, scale: 5, default: [], array: true
-    t.decimal "thrusts_x", precision: 8, scale: 5, default: [], array: true
-    t.decimal "thrusts_y", precision: 8, scale: 5, default: [], array: true
-    t.decimal "thrusts_z", precision: 8, scale: 5, default: [], array: true
-    t.decimal "masses", precision: 8, scale: 5, default: [], array: true
+    t.decimal "initial_position_x", null: false
+    t.decimal "initial_position_y", null: false
+    t.decimal "initial_position_z", null: false
+    t.decimal "initial_velocity_x", null: false
+    t.decimal "initial_velocity_y", null: false
+    t.decimal "initial_velocity_z", null: false
+    t.decimal "initial_mass", null: false
+    t.decimal "positions_x", default: [], array: true
+    t.decimal "positions_y", default: [], array: true
+    t.decimal "positions_z", default: [], array: true
+    t.decimal "velocities_x", default: [], array: true
+    t.decimal "velocities_y", default: [], array: true
+    t.decimal "velocities_z", default: [], array: true
+    t.decimal "accelerations_x", default: [], array: true
+    t.decimal "accelerations_y", default: [], array: true
+    t.decimal "accelerations_z", default: [], array: true
+    t.decimal "forces_x", default: [], array: true
+    t.decimal "forces_y", default: [], array: true
+    t.decimal "forces_z", default: [], array: true
+    t.decimal "thrusts_x", default: [], array: true
+    t.decimal "thrusts_y", default: [], array: true
+    t.decimal "thrusts_z", default: [], array: true
+    t.decimal "masses", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_physics_bodies_on_name", unique: true
@@ -101,7 +101,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_182057) do
   create_table "simulations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "name", null: false
     t.text "slug"
-    t.decimal "computation_time", precision: 8, scale: 5
+    t.decimal "computation_time"
     t.datetime "computed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -111,11 +111,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_182057) do
 
   create_table "universes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "simulation_id", null: false
-    t.decimal "start_time", precision: 8, scale: 5, default: "0.0", null: false
-    t.decimal "end_time", precision: 8, scale: 5, null: false
-    t.decimal "timestep", precision: 8, scale: 5, null: false
+    t.decimal "start_time", default: "0.0", null: false
+    t.decimal "end_time", null: false
+    t.decimal "timestep", null: false
     t.integer "number_of_timesteps", null: false
-    t.decimal "timesteps", precision: 8, scale: 5, default: [], array: true
+    t.decimal "timesteps", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["simulation_id"], name: "index_universes_on_simulation_id"
