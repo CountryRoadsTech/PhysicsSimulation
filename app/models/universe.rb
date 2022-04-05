@@ -20,10 +20,13 @@
 #
 #  fk_rails_7ac1c0e6f8  (simulation_id => simulations.id)
 #
+require 'bigdecimal'
+
 class Universe < ApplicationRecord
   belongs_to :simulation, inverse_of: :universe
 
   before_validation :set_missing_times
+  after_create :initialize_timesteps_array
 
   validates_presence_of :simulation, :start_time, :end_time, :timestep, :number_of_timesteps
   validates :start_time, numericality: { greater_than_or_equal_to: 0 }
@@ -53,5 +56,19 @@ class Universe < ApplicationRecord
         errors.add(:base, "supplied start time, end time, timestep, and number of timesteps do not match. (End time minus start time) divided by number of timesteps must equal timestep.")
       end
     end
+  end
+
+  # Initialize the timesteps arrays with the correct time value for each timestep.
+  def initialize_timesteps_array
+    timesteps_array = []
+    t = BigDecimal(self.start_time)
+
+    self.number_of_timesteps.times do
+      timesteps_array << BigDecimal(t)
+
+      t += self.timestep
+    end
+
+    self.update_attribute(:timesteps, timesteps_array)
   end
 end
