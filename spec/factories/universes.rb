@@ -3,10 +3,11 @@
 # Table name: universes
 #
 #  id                  :uuid             not null, primary key
-#  end_time            :decimal(, )      not null
+#  end_time            :decimal(8, 5)    not null
 #  number_of_timesteps :integer          not null
-#  start_time          :decimal(, )      default(0.0), not null
-#  timestep            :decimal(, )      not null
+#  start_time          :decimal(8, 5)    default(0.0), not null
+#  timestep            :decimal(8, 5)    not null
+#  timesteps           :decimal(8, 5)    default([]), is an Array
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  simulation_id       :uuid             not null

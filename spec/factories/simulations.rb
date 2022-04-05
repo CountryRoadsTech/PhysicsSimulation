@@ -3,7 +3,7 @@
 # Table name: simulations
 #
 #  id               :uuid             not null, primary key
-#  computation_time :decimal(, )
+#  computation_time :decimal(8, 5)
 #  computed_at      :datetime
 #  name             :text             not null
 #  slug             :text
