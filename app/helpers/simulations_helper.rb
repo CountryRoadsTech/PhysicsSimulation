@@ -10,7 +10,7 @@ module SimulationsHelper
 
 
     # Write simulation parameters to file, and call Python code to run ODE solver using Scipy.
-    input_path = File.join(PYTHON_WORKING_DIR, "simulation_#{simulation.name.parameterize}_parameters.input")
+    input_path = File.join(PYTHON_WORKING_DIR, "simulation_#{simulation.name.parameterize}.input")
 
     # Create the output path that will be used to read the results of the Python script.
     output_path = File.join(PYTHON_WORKING_DIR, "simulation_#{simulation.name.parameterize}.output")
