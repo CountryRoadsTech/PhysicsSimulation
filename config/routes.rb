@@ -4,6 +4,7 @@
 Rails.application.routes.draw do
   resources :simulations
   resources :universes
+  resources :physics_bodies
 
   # Defines the root path route ("/")
   root 'simulations#index'

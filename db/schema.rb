@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_07_200825) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_07_201107) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -64,6 +64,38 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_07_200825) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "physics_bodies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "universe_id", null: false
+    t.text "name"
+    t.text "slug"
+    t.decimal "initial_position_x"
+    t.decimal "initial_position_y"
+    t.decimal "initial_position_z"
+    t.decimal "initial_velocity_x"
+    t.decimal "initial_velocity_y"
+    t.decimal "initial_velocity_z"
+    t.decimal "initial_mass"
+    t.decimal "positions_x"
+    t.decimal "positions_y"
+    t.decimal "positions_z"
+    t.decimal "velocities_x"
+    t.decimal "velocities_y"
+    t.decimal "velocities_z"
+    t.decimal "accelerations_x"
+    t.decimal "accelerations_y"
+    t.decimal "accelerations_z"
+    t.decimal "forces_x"
+    t.decimal "forces_y"
+    t.decimal "forces_z"
+    t.decimal "thrusts_x"
+    t.decimal "thrusts_y"
+    t.decimal "thrusts_z"
+    t.decimal "masses"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["universe_id"], name: "index_physics_bodies_on_universe_id"
+  end
+
   create_table "simulations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "name"
     t.text "slug"
@@ -86,5 +118,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_07_200825) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "physics_bodies", "universes"
   add_foreign_key "universes", "simulations"
 end
