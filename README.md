@@ -1,6 +1,6 @@
 # Physics Simulation
 
-A physics simulation website (mainly for spacecraft orbits and launches) using Ruby on Rails, Postgresql, Hotwire, StimulusJS, ThreeJS, and D3JS.
+An open source, physics simulation website (mainly for spacecraft orbits and launches) using Ruby on Rails, Postgresql, Hotwire, StimulusJS, ThreeJS, and D3JS.
 
 ## Development Setup
 
