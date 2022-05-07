@@ -28,6 +28,9 @@ Rails/FilePath:
 Rails/CreateTableWithTimestamps:
   Enabled: false
 
+Rails/I18nLocaleTexts:
+  Enabled: false
+
 Bundler/OrderedGems:
   Enabled: false
 
@@ -41,4 +44,10 @@ Metrics/BlockLength:
   Enabled: false
 
 RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/InstanceVariable:
   Enabled: false
