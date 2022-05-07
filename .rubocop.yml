@@ -39,3 +39,6 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
