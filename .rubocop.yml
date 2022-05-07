@@ -22,6 +22,12 @@ Style/ClassAndModuleChildren:
 Style/WordArray:
   Enabled: false
 
+Style/RedundantSelf:
+  Enabled: false
+
+Style/InverseMethods:
+  Enabled: false
+
 Rails/FilePath:
   Enabled: false
 
@@ -41,6 +47,12 @@ Metrics/AbcSize:
   Enabled: false
 
 Metrics/BlockLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
   Enabled: false
 
 RSpec/MultipleExpectations:

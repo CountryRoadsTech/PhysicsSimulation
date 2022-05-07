@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+# Defines all actions available to simulations through HTTP requests.
 class SimulationsController < ApplicationController
-  before_action :set_simulation, only: %i[show edit update destroy]
+  before_action :set_simulation, only: [:show, :edit, :update, :destroy]
 
   # GET /simulations or /simulations.json
   def index
@@ -9,7 +10,10 @@ class SimulationsController < ApplicationController
   end
 
   # GET /simulations/1 or /simulations/1.json
-  def show; end
+  def show
+    # Redirect to the latest URL if an old slug was used.
+    redirect_to @simulation, status: :moved_permanently unless request.path == simulation_path(@simulation)
+  end
 
   # GET /simulations/new
   def new
@@ -61,11 +65,14 @@ class SimulationsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_simulation
-    @simulation = Simulation.find(params[:id])
+    @simulation = Simulation.friendly.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    # Render the 404 page if a slug was used that doesn't match any records.
+    render file: "#{Rails.root}/public/404.html", status: :not_found and return
   end
 
   # Only allow a list of trusted parameters through.
   def simulation_params
-    params.require(:simulation).permit(:name, :slug, :description, :computation_time, :computed_at)
+    params.require(:simulation).permit(:name, :description)
   end
 end

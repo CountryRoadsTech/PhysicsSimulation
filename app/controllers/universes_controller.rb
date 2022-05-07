@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+# Defines all actions available to universes through HTTP requests.
 class UniversesController < ApplicationController
-  before_action :set_universe, only: %i[show edit update destroy]
+  before_action :set_universe, only: [:show, :edit, :update, :destroy]
 
   # GET /universes or /universes.json
   def index

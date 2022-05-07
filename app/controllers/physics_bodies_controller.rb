@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+# Defines all actions available to physics bodies through HTTP requests.
 class PhysicsBodiesController < ApplicationController
-  before_action :set_physics_body, only: %i[show edit update destroy]
+  before_action :set_physics_body, only: [:show, :edit, :update, :destroy]
 
   # GET /physics_bodies or /physics_bodies.json
   def index
@@ -9,7 +10,10 @@ class PhysicsBodiesController < ApplicationController
   end
 
   # GET /physics_bodies/1 or /physics_bodies/1.json
-  def show; end
+  def show
+    # Redirect to the latest URL if an old slug was used.
+    redirect_to @physics_body, status: :moved_permanently unless request.path == physics_body_path(@physics_body)
+  end
 
   # GET /physics_bodies/new
   def new
@@ -61,12 +65,17 @@ class PhysicsBodiesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_physics_body
-    @physics_body = PhysicsBody.find(params[:id])
+    @physics_body = PhysicsBody.friendly.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    # Render the 404 page if a slug was used that doesn't match any records.
+    render file: "#{Rails.root}/public/404.html", status: :not_found and return
   end
 
   # Only allow a list of trusted parameters through.
   def physics_body_params
-    params.require(:physics_body).permit(:universe_id, :name, :slug, :description, :initial_position_x,
-                                         :initial_position_y, :initial_position_z, :initial_velocity_x, :initial_velocity_y, :initial_velocity_z, :initial_mass, :positions_x, :positions_y, :positions_z, :velocities_x, :velocities_y, :velocities_z, :accelerations_x, :accelerations_y, :accelerations_z, :forces_x, :forces_y, :forces_z, :thrusts_x, :thrusts_y, :thrusts_z, :masses)
+    params.require(:physics_body).permit(:universe_id, :name, :description, :initial_mass,
+                                         :initial_position_x, :initial_position_y, :initial_position_z,
+                                         :initial_velocity_x, :initial_velocity_y, :initial_velocity_z,
+                                         thrusts_x: [], thrusts_y: [], thrusts_z: [])
   end
 end
