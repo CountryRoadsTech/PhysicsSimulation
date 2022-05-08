@@ -13,11 +13,7 @@ RSpec.describe 'simulations/edit', type: :view do
     assert_select 'form[action=?][method=?]', simulation_path(@simulation), 'post' do
       assert_select 'textarea[name=?]', 'simulation[name]'
 
-      assert_select 'textarea[name=?]', 'simulation[slug]'
-
       assert_select 'input[name=?]', 'simulation[description]'
-
-      assert_select 'input[name=?]', 'simulation[computation_time]'
     end
   end
 end

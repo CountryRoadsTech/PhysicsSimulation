@@ -1,2 +1,10 @@
-<p class="alert"><%= alert %></p>
-<p class="notice"><%= notice %></p>
+<% if alert.present? %>
+  <div class="mx-auto">
+    <p class="py-2 px-3 bg-red-50 mb-5 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
+  </div>
+<% end %>
+<% if notice.present? %>
+  <div class="mx-auto">
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  </div>
+<% end %>

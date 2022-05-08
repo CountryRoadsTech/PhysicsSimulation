@@ -18,6 +18,7 @@ class SimulationsController < ApplicationController
   # GET /simulations/new
   def new
     @simulation = Simulation.new
+    @simulation.build_universe
   end
 
   # GET /simulations/1/edit
@@ -73,6 +74,12 @@ class SimulationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def simulation_params
-    params.require(:simulation).permit(:name, :description)
+    params.require(:simulation).permit(:name, :description, universe_attributes: [
+                                         :id, :start_time, :end_time, :timestep, :number_of_timesteps
+                                       ], physics_bodies_attributes: [
+                                         :_destroy, :id, :name, :description, :initial_mass,
+                                         :initial_position_x, :initial_position_y, :initial_position_z,
+                                         :initial_velocity_x, :initial_velocity_y, :initial_velocity_z
+                                       ])
   end
 end

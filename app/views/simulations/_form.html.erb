@@ -13,12 +13,7 @@
 
   <div class="my-5">
     <%= form.label :name %>
-    <%= form.text_area :name, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :slug %>
-    <%= form.text_area :slug, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.text_area :name, rows: 2, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
@@ -26,16 +21,46 @@
     <%= form.rich_text_area :description, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :computation_time %>
-    <%= form.text_field :computation_time, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
+  <h2 class="font-bold text-2xl">Times</h2>
+  <%= form.fields_for :universe do |universe_form| %>
+    <h3 class="text-lg">Only 3 out of 4 time fields are required, the missing value will be automatically calculated.</h3>
+    <div class="my-5">
+      <%= universe_form.label :start_time, 'Start Time (seconds)' %>
+      <%= universe_form.text_field :start_time, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+    <div class="my-5">
+      <%= universe_form.label :end_time, 'End Time (seconds)' %>
+      <%= universe_form.text_field :end_time, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+    <div class="my-5">
+      <%= universe_form.label :timestep, 'Timestep (seconds)' %>
+      <%= universe_form.text_field :timestep, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+    <div class="my-5">
+      <%= universe_form.label :number_of_timesteps, 'Number of Timesteps' %>
+      <%= universe_form.number_field :number_of_timesteps, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+  <% end %>
 
-  <div class="my-5">
-    <%= form.label :computed_at %>
-    <%= form.datetime_field :computed_at, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
+  <h2 class="font-bold text-2xl">Physics Bodies</h2>
+  <div data-controller="nested-form">
+    <template data-target='nested-form.template'>
+      <%= form.fields_for :physics_bodies, PhysicsBody.new, child_index: 'TEMPLATE_RECORD' do |physics_body| %>
+        <%= render 'physics_bodies/nested_form_fields', form: physics_body %>
+      <% end %>
+    </template>
 
+    <%= form.fields_for :physics_bodies do |physics_body| %>
+      <%= render 'physics_bodies/nested_form_fields', form: physics_body %>
+    <% end %>
+
+    <div data-target="nested-form.add_item">
+      <%= link_to "Add Physics Body", "#", data: { action: "nested-form#add_association" }, class: 'ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium' %>
+    </div>
+  </div>
+  <br>
+  <hr>
+  <br>
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
