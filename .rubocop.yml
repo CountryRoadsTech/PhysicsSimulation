@@ -28,6 +28,9 @@ Style/RedundantSelf:
 Style/InverseMethods:
   Enabled: false
 
+Style/HashSyntax:
+  Enabled: false
+
 Rails/FilePath:
   Enabled: false
 
