@@ -4,7 +4,7 @@
 class CreatePhysicsBodies < ActiveRecord::Migration[7.0]
   def change
     create_table :physics_bodies, id: :uuid do |t|
-      t.belongs_to :universe, null: false, foreign_key: true, type: :uuid
+      t.belongs_to :simulation, null: false, foreign_key: true, type: :uuid
 
       t.text :name, null: false
       t.text :slug

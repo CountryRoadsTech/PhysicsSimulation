@@ -4,13 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'universes/new', type: :view do
   before do
-    assign(:universe, Universe.new(
-                        simulation: nil,
-                        start_time: '9.99',
-                        end_time: '9.99',
-                        timestep: '9.99',
-                        number_of_timesteps: 1
-                      ))
+    assign(:universe, build(:universe))
   end
 
   it 'renders new universe form' do

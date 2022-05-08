@@ -32,17 +32,17 @@
 #  velocities_z       :decimal(, )      default([]), is an Array
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  universe_id        :uuid             not null
+#  simulation_id      :uuid             not null
 #
 # Indexes
 #
-#  index_physics_bodies_on_name         (name) UNIQUE
-#  index_physics_bodies_on_slug         (slug) UNIQUE
-#  index_physics_bodies_on_universe_id  (universe_id)
+#  index_physics_bodies_on_name           (name) UNIQUE
+#  index_physics_bodies_on_simulation_id  (simulation_id)
+#  index_physics_bodies_on_slug           (slug) UNIQUE
 #
 # Foreign Keys
 #
-#  fk_rails_da7d4a33b1  (universe_id => universes.id)
+#  fk_rails_0453254253  (simulation_id => simulations.id)
 #
 require 'rails_helper'
 

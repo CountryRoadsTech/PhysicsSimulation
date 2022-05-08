@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'faker'
+
 # == Schema Information
 #
 # Table name: universes
@@ -24,10 +26,9 @@
 #
 FactoryBot.define do
   factory :universe do
-    simulation { nil }
-    start_time { '9.99' }
-    end_time { '9.99' }
-    timestep { '9.99' }
-    number_of_timesteps { 1 }
+    simulation
+    start_time { Faker::Number.positive }
+    end_time { Faker::Number.between(from: start_time + 1, to: start_time + 1000) }
+    number_of_timesteps { Faker::Number.between(from: 10, to: 100) }
   end
 end

@@ -4,12 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'simulations/edit', type: :view do
   before do
-    @simulation = assign(:simulation, Simulation.create!(
-                                        name: 'MyText',
-                                        slug: 'MyText',
-                                        description: nil,
-                                        computation_time: '9.99'
-                                      ))
+    @simulation = assign(:simulation, create(:simulation))
   end
 
   it 'renders the edit simulation form' do

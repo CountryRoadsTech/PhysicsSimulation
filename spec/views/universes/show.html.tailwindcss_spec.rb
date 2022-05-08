@@ -4,21 +4,15 @@ require 'rails_helper'
 
 RSpec.describe 'universes/show', type: :view do
   before do
-    @universe = assign(:universe, Universe.create!(
-                                    simulation: nil,
-                                    start_time: '9.99',
-                                    end_time: '9.99',
-                                    timestep: '9.99',
-                                    number_of_timesteps: 2
-                                  ))
+    @universe = assign(:universe, create(:universe))
   end
 
   it 'renders attributes in <p>' do
     render
-    expect(rendered).to match(//)
-    expect(rendered).to match(/9.99/)
-    expect(rendered).to match(/9.99/)
-    expect(rendered).to match(/9.99/)
-    expect(rendered).to match(/2/)
+    expect(rendered).to include(@universe.start_time.to_s)
+    expect(rendered).to include(@universe.end_time.to_s)
+    expect(rendered).to include(@universe.timestep.to_s)
+    expect(rendered).to include(@universe.number_of_timesteps.to_s)
+    expect(rendered).to include(@universe.timesteps.to_s)
   end
 end

@@ -4,13 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'universes/edit', type: :view do
   before do
-    @universe = assign(:universe, Universe.create!(
-                                    simulation: nil,
-                                    start_time: '9.99',
-                                    end_time: '9.99',
-                                    timestep: '9.99',
-                                    number_of_timesteps: 1
-                                  ))
+    @universe = create(:universe)
   end
 
   it 'renders the edit universe form' do

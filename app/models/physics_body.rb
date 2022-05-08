@@ -32,17 +32,17 @@
 #  velocities_z       :decimal(, )      default([]), is an Array
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  universe_id        :uuid             not null
+#  simulation_id      :uuid             not null
 #
 # Indexes
 #
-#  index_physics_bodies_on_name         (name) UNIQUE
-#  index_physics_bodies_on_slug         (slug) UNIQUE
-#  index_physics_bodies_on_universe_id  (universe_id)
+#  index_physics_bodies_on_name           (name) UNIQUE
+#  index_physics_bodies_on_simulation_id  (simulation_id)
+#  index_physics_bodies_on_slug           (slug) UNIQUE
 #
 # Foreign Keys
 #
-#  fk_rails_da7d4a33b1  (universe_id => universes.id)
+#  fk_rails_0453254253  (simulation_id => simulations.id)
 #
 class PhysicsBody < ApplicationRecord
   belongs_to :simulation, inverse_of: :physics_bodies
@@ -52,6 +52,7 @@ class PhysicsBody < ApplicationRecord
   validates :name, :initial_position_x, :initial_position_y, :initial_position_z,
             :initial_velocity_x, :initial_velocity_y, :initial_velocity_z, :initial_mass, presence: true
   validates :name, uniqueness: true
+  validates :initial_mass, numericality: { greater_than: 0 }
 
   after_create :initialize_state_arrays
 

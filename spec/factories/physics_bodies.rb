@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'faker'
+
 # == Schema Information
 #
 # Table name: physics_bodies
@@ -32,46 +34,29 @@
 #  velocities_z       :decimal(, )      default([]), is an Array
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  universe_id        :uuid             not null
+#  simulation_id      :uuid             not null
 #
 # Indexes
 #
-#  index_physics_bodies_on_name         (name) UNIQUE
-#  index_physics_bodies_on_slug         (slug) UNIQUE
-#  index_physics_bodies_on_universe_id  (universe_id)
+#  index_physics_bodies_on_name           (name) UNIQUE
+#  index_physics_bodies_on_simulation_id  (simulation_id)
+#  index_physics_bodies_on_slug           (slug) UNIQUE
 #
 # Foreign Keys
 #
-#  fk_rails_da7d4a33b1  (universe_id => universes.id)
+#  fk_rails_0453254253  (simulation_id => simulations.id)
 #
 FactoryBot.define do
   factory :physics_body do
-    universe { nil }
-    name { 'MyText' }
-    slug { 'MyText' }
-    description { nil }
-    initial_position_x { '9.99' }
-    initial_position_y { '9.99' }
-    initial_position_z { '9.99' }
-    initial_velocity_x { '9.99' }
-    initial_velocity_y { '9.99' }
-    initial_velocity_z { '9.99' }
-    initial_mass { '9.99' }
-    positions_x { '9.99' }
-    positions_y { '9.99' }
-    positions_z { '9.99' }
-    velocities_x { '9.99' }
-    velocities_y { '9.99' }
-    velocities_z { '9.99' }
-    accelerations_x { '9.99' }
-    accelerations_y { '9.99' }
-    accelerations_z { '9.99' }
-    forces_x { '9.99' }
-    forces_y { '9.99' }
-    forces_z { '9.99' }
-    thrusts_x { '9.99' }
-    thrusts_y { '9.99' }
-    thrusts_z { '9.99' }
-    masses { '9.99' }
+    simulation
+    name { Faker::Space.unique.launch_vehicle }
+    description { "The lovely #{name} built by #{Faker::Space.agency} that has gone to #{Faker::Space.planet}!" }
+    initial_position_x { Faker::Number.between(from: -1_000_000_000, to: 1_000_000_000) }
+    initial_position_y { Faker::Number.between(from: -1_000_000_000, to: 1_000_000_000) }
+    initial_position_z { Faker::Number.between(from: -1_000_000_000, to: 1_000_000_000) }
+    initial_velocity_x { Faker::Number.between(from: -1_000_000_000, to: 1_000_000_000) }
+    initial_velocity_y { Faker::Number.between(from: -1_000_000_000, to: 1_000_000_000) }
+    initial_velocity_z { Faker::Number.between(from: -1_000_000_000, to: 1_000_000_000) }
+    initial_mass { Faker::Number.positive }
   end
 end

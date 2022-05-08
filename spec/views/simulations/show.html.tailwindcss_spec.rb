@@ -4,19 +4,14 @@ require 'rails_helper'
 
 RSpec.describe 'simulations/show', type: :view do
   before do
-    @simulation = assign(:simulation, Simulation.create!(
-                                        name: 'MyText',
-                                        slug: 'MyText',
-                                        description: nil,
-                                        computation_time: '9.99'
-                                      ))
+    @simulation = assign(:simulation, create(:simulation))
   end
 
   it 'renders attributes in <p>' do
     render
-    expect(rendered).to match(/MyText/)
-    expect(rendered).to match(/MyText/)
-    expect(rendered).to match(//)
-    expect(rendered).to match(/9.99/)
+    expect(rendered).to include(@simulation.name)
+    expect(rendered).to include(@simulation.description.to_s)
+    expect(rendered).to include(@simulation.computation_time.to_s)
+    expect(rendered).to include(@simulation.computed_at.to_s)
   end
 end

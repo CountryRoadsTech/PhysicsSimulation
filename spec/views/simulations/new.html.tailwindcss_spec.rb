@@ -4,12 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'simulations/new', type: :view do
   before do
-    assign(:simulation, Simulation.new(
-                          name: 'MyText',
-                          slug: 'MyText',
-                          description: nil,
-                          computation_time: '9.99'
-                        ))
+    assign(:simulation, build(:simulation))
   end
 
   it 'renders new simulation form' do
