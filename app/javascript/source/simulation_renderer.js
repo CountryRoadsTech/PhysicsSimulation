@@ -24,7 +24,7 @@ const scene = new THREE.Scene()
 
 // Set the scene's background
 const textureLoader = new THREE.TextureLoader()
-const backgroundTexture = textureLoader.load('/resources/images/celestial_grid.png', () => {
+const backgroundTexture = textureLoader.load('/resources/images/constellation_figures.png', () => {
       const renderTarget = new THREE.WebGLCubeRenderTarget(backgroundTexture.image.height)
       renderTarget.fromEquirectangularTexture(renderer, backgroundTexture)
       scene.background = renderTarget.texture
