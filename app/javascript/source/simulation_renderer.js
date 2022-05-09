@@ -23,8 +23,9 @@ controls.update()
 const scene = new THREE.Scene()
 
 // Set the scene's background
+var currentSceneBackground = 'constellation_figures' // Default
 const textureLoader = new THREE.TextureLoader()
-const backgroundTexture = textureLoader.load('/resources/images/constellation_figures.png', () => {
+const backgroundTexture = textureLoader.load('/resources/images/' + currentSceneBackground + '.png', () => {
       const renderTarget = new THREE.WebGLCubeRenderTarget(backgroundTexture.image.height)
       renderTarget.fromEquirectangularTexture(renderer, backgroundTexture)
       scene.background = renderTarget.texture
@@ -67,9 +68,13 @@ function checkAndChangeBackgroundImage(textureLoader, scene) {
 
   const userSelection = document.querySelector('input[name="background_image"]:checked').value;
 
-  const backgroundTexture = textureLoader.load('/resources/images/' + userSelection + '.png', () => {
-        const renderTarget = new THREE.WebGLCubeRenderTarget(backgroundTexture.image.height)
-        renderTarget.fromEquirectangularTexture(renderer, backgroundTexture)
-        scene.background = renderTarget.texture
-      })
+  if (userSelection !== currentSceneBackground) {
+    currentSceneBackground = userSelection
+
+    const backgroundTexture = textureLoader.load('/resources/images/' + userSelection + '.png', () => {
+          const renderTarget = new THREE.WebGLCubeRenderTarget(backgroundTexture.image.height)
+          renderTarget.fromEquirectangularTexture(renderer, backgroundTexture)
+          scene.background = renderTarget.texture
+        })
+  }
 }

@@ -44,10 +44,12 @@
     <h3 class="text-2xl pb-2">Select a Background Image</h3>
 
     <%= form_with class: 'p-2' do |form| %>
-      <%= form.radio_button :background_image, 'constellation_figures', checked: true %>
+      <%= form.radio_button :background_image, 'constellation_figures', checked: true  %>
       <%= form.label :background_image_constellation_figures, 'Constellations' %>
       <%= form.radio_button :background_image, 'constellation_bounds' %>
       <%= form.label :background_image_constellation_bounds, 'Constellation Boundaries' %>
+      <%= form.radio_button :background_image, 'celestial_grid'%>
+      <%= form.label :background_image_celestial_grid, 'Celestial Grid' %>
     <% end %>
 
     <%= link_to 'About the Background Images', 'https://svs.gsfc.nasa.gov/4851', target: :_blank, class: 'text-blue-600 underline p-4' %>
