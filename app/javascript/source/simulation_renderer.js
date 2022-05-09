@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'OrbitControls'
+import {GLTFLoader} from 'GLTFLoader'
 import { EXRLoader } from 'EXRLoader'
 
 document.addEventListener("turbo:load", function() {
@@ -26,6 +27,7 @@ document.addEventListener("turbo:load", function() {
   // Set the scene's background
   var currentSceneBackground = 'constellation_figures' // Default
   const textureLoader = new THREE.TextureLoader()
+  const exrLoader = new EXRLoader()
   const backgroundTexture = textureLoader.load('/resources/images/' + currentSceneBackground + '.png', () => {
         const renderTarget = new THREE.WebGLCubeRenderTarget(backgroundTexture.image.height)
         renderTarget.fromEquirectangularTexture(renderer, backgroundTexture)
@@ -72,11 +74,19 @@ document.addEventListener("turbo:load", function() {
     if (userSelection !== currentSceneBackground) {
       currentSceneBackground = userSelection
 
-      const backgroundTexture = textureLoader.load('/resources/images/' + userSelection + '.png', () => {
-            const renderTarget = new THREE.WebGLCubeRenderTarget(backgroundTexture.image.height)
-            renderTarget.fromEquirectangularTexture(renderer, backgroundTexture)
-            scene.background = renderTarget.texture
-          })
+      if (userSelection == 'milkyway') {
+        exrLoader.load('/resources/images/milkyway.exr', function(exrTexture, exrTextureData) {
+          const renderTarget = new THREE.WebGLCubeRenderTarget(exrTexture.image.height)
+          renderTarget.fromEquirectangularTexture(renderer, exrTexture)
+          scene.background = renderTarget.texture
+        })
+      } else {
+        const backgroundTexture = textureLoader.load('/resources/images/' + userSelection + '.png', () => {
+              const renderTarget = new THREE.WebGLCubeRenderTarget(backgroundTexture.image.height)
+              renderTarget.fromEquirectangularTexture(renderer, backgroundTexture)
+              scene.background = renderTarget.texture
+            })
+      }
     }
   }
 })
