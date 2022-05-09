@@ -1,63 +1,65 @@
-<div class="mx-auto md:w-2/3 w-full flex">
-  <div class="mx-auto">
-    <h1 class="text-4xl font-semibold"><%= @simulation.name %></h1>
+<div class="">
+  <div class="mx-auto md:w-2/3 w-full flex">
+    <div class="mx-auto">
+      <h1 class="text-4xl font-semibold"><%= @simulation.name %></h1>
 
-    <%= @simulation.description %>
+      <%= @simulation.description %>
 
-    <table class="w-full table-auto border border-slate-300">
-      <thead>
-        <tr>
-          <th class="w-1/3 border border-slate-300">
-            Physics Bodies Count
-          </th>
-          <th class="w-1/3 border border-slate-300">
-            Computed On
-          </th>
-          <th class="w-1/3 border border-slate-300">
-            Computation Time (seconds)
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="border border-slate-300">
-            <%= @simulation.physics_bodies.size %>
-          </td>
-          <td class="border border-slate-300">
-            <%= @simulation.computed_at.nil? ? 'Not Computed Yet' : @simulation.computed_at %>
-          </td>
-          <td class="border border-slate-300">
-            <%= @simulation.computation_time.nil? ? '-' : @simulation.computation_time %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <table class="w-full table-auto border border-slate-300">
+        <thead>
+          <tr>
+            <th class="w-1/3 border border-slate-300">
+              Physics Bodies Count
+            </th>
+            <th class="w-1/3 border border-slate-300">
+              Computed On
+            </th>
+            <th class="w-1/3 border border-slate-300">
+              Computation Time (seconds)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border border-slate-300">
+              <%= @simulation.physics_bodies.size %>
+            </td>
+            <td class="border border-slate-300">
+              <%= @simulation.computed_at.nil? ? 'Not Computed Yet' : @simulation.computed_at %>
+            </td>
+            <td class="border border-slate-300">
+              <%= @simulation.computation_time.nil? ? '-' : @simulation.computation_time %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-    <%= link_to 'Edit', edit_simulation_path(@simulation), class: "mt-2 rounded-lg py-3 px-5 bg-blue-600 inline-block text-white font-semibold" %>
-    <div class="inline-block ml-2">
-      <%= button_to 'Delete', simulation_path(@simulation), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-red-600 text-white font-semibold" %>
+      <%= link_to 'Edit', edit_simulation_path(@simulation), class: "mt-2 rounded-lg py-3 px-5 bg-blue-600 inline-block text-white font-semibold" %>
+      <div class="inline-block ml-2">
+        <%= button_to 'Delete', simulation_path(@simulation), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-red-600 text-white font-semibold" %>
+      </div>
+      <%= link_to 'Back', :back, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <br>
+      <br>
+      <hr>
+      <h3 class="text-2xl pb-2">Select a Background Image</h3>
+
+      <%= form_with class: 'p-2' do |form| %>
+        <%= form.radio_button :background_image, 'constellation_figures', checked: true  %>
+        <%= form.label :background_image_constellation_figures, 'Constellations' %>
+        <%= form.radio_button :background_image, 'constellation_bounds' %>
+        <%= form.label :background_image_constellation_bounds, 'Constellation Boundaries' %>
+        <%= form.radio_button :background_image, 'celestial_grid'%>
+        <%= form.label :background_image_celestial_grid, 'Celestial Grid' %>
+      <% end %>
+
+      <%= link_to 'About the Background Images', 'https://svs.gsfc.nasa.gov/4851', target: :_blank, class: 'text-blue-600 underline p-4' %>
     </div>
-    <%= link_to 'Back', :back, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <br>
-    <br>
-    <hr>
-    <h3 class="text-2xl pb-2">Select a Background Image</h3>
-
-    <%= form_with class: 'p-2' do |form| %>
-      <%= form.radio_button :background_image, 'constellation_figures', checked: true  %>
-      <%= form.label :background_image_constellation_figures, 'Constellations' %>
-      <%= form.radio_button :background_image, 'constellation_bounds' %>
-      <%= form.label :background_image_constellation_bounds, 'Constellation Boundaries' %>
-      <%= form.radio_button :background_image, 'celestial_grid'%>
-      <%= form.label :background_image_celestial_grid, 'Celestial Grid' %>
-    <% end %>
-
-    <%= link_to 'About the Background Images', 'https://svs.gsfc.nasa.gov/4851', target: :_blank, class: 'text-blue-600 underline p-4' %>
-
-    <% if @simulation.computed? %>
-      <canvas id="simulation_canvas" class="m-2 h-96 max-h-screen"></canvas>
-    <% else %>
-      <h3 class="text-2xl">Simulation not run yet. Once its been computed the visualization will appear here.</h3>
-    <% end %>
   </div>
+
+  <% if @simulation.computed? %>
+    <canvas id="simulation_canvas" class="m-2 h-96 max-h-screen"></canvas>
+  <% else %>
+    <h3 class="text-2xl">Simulation not run yet. Once its been computed the visualization will appear here.</h3>
+  <% end %>
 </div>
