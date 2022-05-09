@@ -6,13 +6,13 @@ import { EXRLoader } from 'EXRLoader'
 document.addEventListener("turbo:load", function() {
   // Get the HTML Canvas used as the target for the renderer
   const canvas = document.querySelector('#simulation_canvas')
-  const renderer = new THREE.WebGLRenderer({canvas, alpha: true})
+  const renderer = new THREE.WebGLRenderer({canvas, alpha: true, antialias: true, logarithmicDepthBuffer: true})
 
   // Add a perspective camera
   const fov = 75
-  const aspect_ratio = canvas.width / canvas.height
+  const aspect_ratio = 2
   const near_render_distance = 1
-  const far_render_distance = 10000
+  const far_render_distance = 1000000
   const camera = new THREE.PerspectiveCamera(fov, aspect_ratio, near_render_distance, far_render_distance)
   camera.position.z = 1000
 
@@ -42,6 +42,12 @@ document.addEventListener("turbo:load", function() {
   scene.add(ambientLight)
 
   loadModels(scene)
+
+  // Axes default value
+  var currentUserSelectedAxes = 'off'
+  const axesHelper = new THREE.AxesHelper(100000)
+  scene.add(axesHelper)
+  axesHelper.visible = false
 
   requestAnimationFrame(render)
 
@@ -83,8 +89,9 @@ document.addEventListener("turbo:load", function() {
       camera.updateProjectionMatrix()
     }
 
-    // Update the background image depending on the user's selection
+    // Update the background image and axes depending on the user's selection
     checkAndChangeBackgroundImage(textureLoader, scene)
+    checkAndChangeAxes()
 
     renderer.render(scene, camera)
     requestAnimationFrame(render)
@@ -123,6 +130,23 @@ document.addEventListener("turbo:load", function() {
               renderTarget.fromEquirectangularTexture(renderer, backgroundTexture)
               scene.background = renderTarget.texture
             })
+      }
+    }
+  }
+
+  function checkAndChangeAxes() {
+
+    const userSelection = document.querySelector('input[name="axes"]:checked').value;
+
+    if (userSelection !== currentUserSelectedAxes) {
+      currentUserSelectedAxes = userSelection
+
+      if (userSelection == 'on') {
+        axesHelper.visible = true
+      } else if (userSelection == 'off') {
+        axesHelper.visible = false
+      } else {
+        console.error('Unknown user selection for axes: ' + userSelection)
       }
     }
   }
