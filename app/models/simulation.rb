@@ -34,4 +34,8 @@ class Simulation < ApplicationRecord
   def should_generate_new_friendly_id?
     slug.blank? or name_changed?
   end
+
+  def computed?
+    not self.computed_at.nil? and not self.computation_time.nil?
+  end
 end

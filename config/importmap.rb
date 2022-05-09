@@ -10,3 +10,5 @@ pin_all_from 'app/javascript/controllers', under: 'controllers'
 pin 'trix'
 pin '@rails/actiontext', to: 'actiontext.js'
 pin 'three', to: 'https://ga.jspm.io/npm:three@0.140.0/build/three.module.js'
+pin 'OrbitControls', to: 'https://ga.jspm.io/npm:three@0.140.0/examples/jsm/controls/OrbitControls.js' # Edit URL: https://generator.jspm.io/#U2VhYGBmD80rySzJSU1hKMkoSk11MNAzNDHQM0Dl6adWJOYW5KQW62cV5+on5+eVFOXnFOv7FyVlljhDeXpZxfg05eQnpqQWFeu7RgT5gJlA9QCQ4WFsgQA
+pin 'EXRLoader', to: 'https://ga.jspm.io/npm:three@0.140.0/examples/jsm/loaders/EXRLoader.js'

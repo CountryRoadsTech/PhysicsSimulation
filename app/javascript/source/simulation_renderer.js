@@ -1,48 +1,56 @@
 import * as THREE from 'three'
+import { OrbitControls } from 'OrbitControls'
+import { EXRLoader } from 'EXRLoader'
 
+// Get the HTML Canvas used as the target for the renderer
 const canvas = document.querySelector('#simulation_canvas')
-const renderer = new THREE.WebGLRenderer({canvas})
+const renderer = new THREE.WebGLRenderer({canvas, alpha: true})
 
+// Add a perspective camera
 const fov = 75
-const aspect_ratio = 2
-const near_render_distance = 0.1
-const far_render_distance = 5
+const aspect_ratio = canvas.width / canvas.height
+const near_render_distance = 1
+const far_render_distance = 10000
 const camera = new THREE.PerspectiveCamera(fov, aspect_ratio, near_render_distance, far_render_distance)
 camera.position.z = 2
 
+// Add orbit style controls
+const controls = new OrbitControls(camera, canvas)
+controls.target.set(0, 0, 0)
+controls.update()
+
+// Create the main scene
 const scene = new THREE.Scene()
 
-const boxWidth = 1
-const boxHeight = 1
-const boxDepth = 1
-const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth)
-const material = new THREE.MeshBasicMaterial({color: 0x44aa88})
-const cube = new THREE.Mesh(geometry, material)
+// Set the scene's background
+const textureLoader = new THREE.TextureLoader()
+const backgroundTexture = textureLoader.load('/resources/images/constellation_bounds.png', () => {
+      const renderTarget = new THREE.WebGLCubeRenderTarget(backgroundTexture.image.height)
+      renderTarget.fromEquirectangularTexture(renderer, backgroundTexture)
+      scene.background = renderTarget.texture
+    })
 
-scene.add(cube)
+requestAnimationFrame(render)
 
 function render(time) {
-  time *= 0.001; // Convert time to seconds.
+  time *= 0.001 // Convert time to seconds.
 
+  // Resize the camera if the canvas's size was changed
   if (resizeRendererToDisplaySize(renderer)) {
-    const canvas = renderer.domElement;
+    const canvas = renderer.domElement
     camera.aspect = canvas.clientWidth / canvas.clientHeight
     camera.updateProjectionMatrix()
   }
-
-  cube.rotation.x = time;
-  cube.rotation.y = time;
 
   renderer.render(scene, camera)
   requestAnimationFrame(render)
 }
 
-requestAnimationFrame(render)
-
 function resizeRendererToDisplaySize(renderer) {
-  const canvas = renderer.domElement;
-  const width = canvas.clientWidth;
-  const height = canvas.clientHeight;
+  const canvas = renderer.domElement
+  const pixelRatio = window.devicePixelRatio
+  const width = canvas.clientWidth * pixelRatio | 1
+  const height = canvas.clientHeight * pixelRatio | 1
 
   const needResize = canvas.width !== width || canvas.height !== height
   if (needResize) {
