@@ -14,7 +14,7 @@ document.addEventListener("turbo:load", function() {
   const near_render_distance = 1
   const far_render_distance = 10000
   const camera = new THREE.PerspectiveCamera(fov, aspect_ratio, near_render_distance, far_render_distance)
-  camera.position.z = 2
+  camera.position.z = 1000
 
   // Add orbit style controls
   const controls = new OrbitControls(camera, canvas)
@@ -34,7 +34,44 @@ document.addEventListener("turbo:load", function() {
         scene.background = renderTarget.texture
       })
 
+  // Add lighting
+  const lightColor = 0xFFFFFF
+  const lightIntensity = 1
+  const ambientLight = new THREE.AmbientLight(lightColor, lightIntensity)
+
+  scene.add(ambientLight)
+
+  loadModels(scene)
+
   requestAnimationFrame(render)
+
+  function loadModels(scene) {
+    const gltfLoader = new GLTFLoader()
+
+    const modelPaths = [
+      "/resources/models/Sun.glb",
+      "/resources/models/Mercury.glb",
+      "/resources/models/Venus.glb",
+      "/resources/models/Earth.glb",
+      "/resources/models/Mars.glb",
+      "/resources/models/Jupiter.glb",
+      "/resources/models/Saturn.glb",
+      "/resources/models/Uranus.glb",
+      "/resources/models/Neptune.glb",
+      "/resources/models/Pluto.glb"
+    ]
+
+    for (var i = 0; i < modelPaths.length; i++) {
+      loadModel(scene, gltfLoader, modelPaths[i])
+    }
+  }
+
+  function loadModel(scene, loader, path) {
+    loader.load(path, (gltf) => {
+      const root = gltf.scene;
+      scene.add(root);
+    })
+  }
 
   function render(time) {
     time *= 0.001 // Convert time to seconds.
