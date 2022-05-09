@@ -24,7 +24,7 @@ const scene = new THREE.Scene()
 
 // Set the scene's background
 const textureLoader = new THREE.TextureLoader()
-const backgroundTexture = textureLoader.load('/resources/images/constellation_bounds.png', () => {
+const backgroundTexture = textureLoader.load('/resources/images/celestial_grid.png', () => {
       const renderTarget = new THREE.WebGLCubeRenderTarget(backgroundTexture.image.height)
       renderTarget.fromEquirectangularTexture(renderer, backgroundTexture)
       scene.background = renderTarget.texture
@@ -42,6 +42,9 @@ function render(time) {
     camera.updateProjectionMatrix()
   }
 
+  // Update the background image depending on the user's selection
+  checkAndChangeBackgroundImage(textureLoader, scene)
+
   renderer.render(scene, camera)
   requestAnimationFrame(render)
 }
@@ -58,4 +61,15 @@ function resizeRendererToDisplaySize(renderer) {
   }
 
   return needResize
+}
+
+function checkAndChangeBackgroundImage(textureLoader, scene) {
+
+  const userSelection = document.querySelector('input[name="background_image"]:checked').value;
+
+  const backgroundTexture = textureLoader.load('/resources/images/' + userSelection + '.png', () => {
+        const renderTarget = new THREE.WebGLCubeRenderTarget(backgroundTexture.image.height)
+        renderTarget.fromEquirectangularTexture(renderer, backgroundTexture)
+        scene.background = renderTarget.texture
+      })
 }
