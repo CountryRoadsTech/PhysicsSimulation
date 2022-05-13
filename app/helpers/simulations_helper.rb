@@ -17,8 +17,15 @@ module SimulationsHelper
 
   private
 
-  def solve_with_benchmarking(_simulation)
-    sleep(2)
-    # TODO: Solve the simulation...
+  def solve_with_benchmarking(simulation)
+    write_initial_conditions(simulation)
+    call_python_solver(simulation)
+    read_final_results(simulation)
   end
+
+  def write_initial_conditions(simulation); end
+
+  def call_python_solver(simulation); end
+
+  def read_final_results(simulation); end
 end

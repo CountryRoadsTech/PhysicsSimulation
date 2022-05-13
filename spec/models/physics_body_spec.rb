@@ -23,6 +23,7 @@
 #  positions_x        :decimal(, )      default([]), is an Array
 #  positions_y        :decimal(, )      default([]), is an Array
 #  positions_z        :decimal(, )      default([]), is an Array
+#  radius             :decimal(, )      not null
 #  slug               :text
 #  thrusts_x          :decimal(, )      default([]), is an Array
 #  thrusts_y          :decimal(, )      default([]), is an Array

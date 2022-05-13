@@ -25,6 +25,7 @@ require 'faker'
 #  positions_x        :decimal(, )      default([]), is an Array
 #  positions_y        :decimal(, )      default([]), is an Array
 #  positions_z        :decimal(, )      default([]), is an Array
+#  radius             :decimal(, )      not null
 #  slug               :text
 #  thrusts_x          :decimal(, )      default([]), is an Array
 #  thrusts_y          :decimal(, )      default([]), is an Array
@@ -51,12 +52,13 @@ FactoryBot.define do
     simulation
     name { Faker::Space.unique.launch_vehicle }
     description { "The lovely #{name} built by #{Faker::Space.agency} that has gone to #{Faker::Space.planet}!" }
+    initial_mass { Faker::Number.positive }
+    radius { Faker::Number.positive }
     initial_position_x { Faker::Number.between(from: -1_000_000_000, to: 1_000_000_000) }
     initial_position_y { Faker::Number.between(from: -1_000_000_000, to: 1_000_000_000) }
     initial_position_z { Faker::Number.between(from: -1_000_000_000, to: 1_000_000_000) }
     initial_velocity_x { Faker::Number.between(from: -1_000_000_000, to: 1_000_000_000) }
     initial_velocity_y { Faker::Number.between(from: -1_000_000_000, to: 1_000_000_000) }
     initial_velocity_z { Faker::Number.between(from: -1_000_000_000, to: 1_000_000_000) }
-    initial_mass { Faker::Number.positive }
   end
 end

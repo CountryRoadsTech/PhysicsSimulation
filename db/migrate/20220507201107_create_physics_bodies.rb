@@ -9,6 +9,9 @@ class CreatePhysicsBodies < ActiveRecord::Migration[7.0]
       t.text :name, null: false
       t.text :slug
 
+      t.decimal :initial_mass, null: false
+      t.decimal :radius, null: false
+
       t.decimal :initial_position_x, null: false
       t.decimal :initial_position_y, null: false
       t.decimal :initial_position_z, null: false
@@ -16,8 +19,6 @@ class CreatePhysicsBodies < ActiveRecord::Migration[7.0]
       t.decimal :initial_velocity_x, null: false
       t.decimal :initial_velocity_y, null: false
       t.decimal :initial_velocity_z, null: false
-
-      t.decimal :initial_mass, null: false
 
       t.decimal :positions_x, array: true, default: []
       t.decimal :positions_y, array: true, default: []

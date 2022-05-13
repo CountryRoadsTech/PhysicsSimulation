@@ -4,6 +4,9 @@ import {GLTFLoader} from 'GLTFLoader'
 import { EXRLoader } from 'EXRLoader'
 
 document.addEventListener("turbo:load", function() {
+  const MAX_DISTANCE = 1000000000
+  const MODEL_SCALE = 1.0/850.0 // Used to convert scale of models to si units.
+
   // Get the HTML Canvas used as the target for the renderer
   const canvas = document.querySelector('#simulation_canvas')
   const renderer = new THREE.WebGLRenderer({canvas, alpha: true, antialias: true, logarithmicDepthBuffer: true})
@@ -12,9 +15,8 @@ document.addEventListener("turbo:load", function() {
   const fov = 75
   const aspect_ratio = 2
   const near_render_distance = 1
-  const far_render_distance = 1000000
-  const camera = new THREE.PerspectiveCamera(fov, aspect_ratio, near_render_distance, far_render_distance)
-  camera.position.z = 1000
+  const camera = new THREE.PerspectiveCamera(fov, aspect_ratio, near_render_distance, MAX_DISTANCE)
+  camera.position.z = 1000000
 
   // Add orbit style controls
   const controls = new OrbitControls(camera, canvas)
@@ -41,41 +43,41 @@ document.addEventListener("turbo:load", function() {
 
   scene.add(ambientLight)
 
-  loadModels(scene)
+  loadPhysicsBodies(scene)
 
   // Axes default value
   var currentUserSelectedAxes = 'off'
-  const axesHelper = new THREE.AxesHelper(100000)
+  const axesHelper = new THREE.AxesHelper(MAX_DISTANCE - 1)
   scene.add(axesHelper)
   axesHelper.visible = false
 
   requestAnimationFrame(render)
 
-  function loadModels(scene) {
+  function loadPhysicsBodies(scene) {
     const gltfLoader = new GLTFLoader()
 
-    const modelPaths = [
-      "/resources/models/Sun.glb",
-      "/resources/models/Mercury.glb",
-      "/resources/models/Venus.glb",
-      "/resources/models/Earth.glb",
-      "/resources/models/Mars.glb",
-      "/resources/models/Jupiter.glb",
-      "/resources/models/Saturn.glb",
-      "/resources/models/Uranus.glb",
-      "/resources/models/Neptune.glb",
-      "/resources/models/Pluto.glb"
-    ]
-
-    for (var i = 0; i < modelPaths.length; i++) {
-      loadModel(scene, gltfLoader, modelPaths[i])
+    for (var i = 0; i < gon.physics_bodies.length; i++) {
+      loadModel(scene, gltfLoader, gon.physics_bodies[i])
     }
   }
 
-  function loadModel(scene, loader, path) {
-    loader.load(path, (gltf) => {
-      const root = gltf.scene;
-      scene.add(root);
+  function loadModel(scene, loader, physics_body) {
+    loader.load('/resources/models/' + physics_body['name'] + '.glb', (gltf) => {
+      const root = gltf.scene
+
+      const radius = physics_body['radius'] * MODEL_SCALE
+
+      // Scale up to the models radius, and position in the correct location
+      root.scale.set(radius, radius, radius)
+      root.position.x = physics_body['x']
+      root.position.y = physics_body['y']
+      root.position.z = physics_body['z']
+      scene.add(root)
+
+      // Load a bounding box around the model
+      var boundingBox = new THREE.BoxHelper(root, 0xff0000)
+      boundingBox.update()
+      scene.add(boundingBox)
     })
   }
 

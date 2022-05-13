@@ -11,6 +11,22 @@ class SimulationsController < ApplicationController
 
   # GET /simulations/1 or /simulations/1.json
   def show
+    # Pass the simulation data needed for rendering to the Javascript in the view.
+    gon.physics_bodies = []
+    @simulation.physics_bodies.each do |physics_body|
+      # Scale down the values to prevent float overflow in ThreeJS rendering.
+      scaled_position_x = physics_body.initial_position_x * Universe::RENDER_SCALE
+      scaled_position_y = physics_body.initial_position_y * Universe::RENDER_SCALE
+      scaled_position_z = physics_body.initial_position_z * Universe::RENDER_SCALE
+      scaled_radius = physics_body.radius * Universe::RENDER_SCALE
+
+      gon.physics_bodies << { name: physics_body.name,
+                              x: scaled_position_x,
+                              y: scaled_position_y,
+                              z: scaled_position_z,
+                              radius: scaled_radius }
+    end
+
     # Redirect to the latest URL if an old slug was used.
     redirect_to @simulation, status: :moved_permanently unless request.path == simulation_path(@simulation)
   end
@@ -77,7 +93,7 @@ class SimulationsController < ApplicationController
     params.require(:simulation).permit(:name, :description, universe_attributes: [
                                          :id, :start_time, :end_time, :timestep, :number_of_timesteps
                                        ], physics_bodies_attributes: [
-                                         :_destroy, :id, :name, :description, :initial_mass,
+                                         :_destroy, :id, :name, :description, :initial_mass, :radius,
                                          :initial_position_x, :initial_position_y, :initial_position_z,
                                          :initial_velocity_x, :initial_velocity_y, :initial_velocity_z
                                        ])

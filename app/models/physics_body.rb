@@ -23,6 +23,7 @@
 #  positions_x        :decimal(, )      default([]), is an Array
 #  positions_y        :decimal(, )      default([]), is an Array
 #  positions_z        :decimal(, )      default([]), is an Array
+#  radius             :decimal(, )      not null
 #  slug               :text
 #  thrusts_x          :decimal(, )      default([]), is an Array
 #  thrusts_y          :decimal(, )      default([]), is an Array
@@ -49,10 +50,11 @@ class PhysicsBody < ApplicationRecord
 
   has_rich_text :description
 
-  validates :name, :initial_position_x, :initial_position_y, :initial_position_z,
-            :initial_velocity_x, :initial_velocity_y, :initial_velocity_z, :initial_mass, presence: true
+  validates :name, :initial_mass, :radius,
+            :initial_position_x, :initial_position_y, :initial_position_z,
+            :initial_velocity_x, :initial_velocity_y, :initial_velocity_z, presence: true
   validates :name, uniqueness: true
-  validates :initial_mass, numericality: { greater_than: 0 }
+  validates :initial_mass, :radius, numericality: { greater_than: 0 }
 
   after_create :initialize_state_arrays
 

@@ -73,7 +73,7 @@ class PhysicsBodiesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def physics_body_params
-    params.require(:physics_body).permit(:universe_id, :name, :description, :initial_mass,
+    params.require(:physics_body).permit(:universe_id, :name, :description, :initial_mass, :radius,
                                          :initial_position_x, :initial_position_y, :initial_position_z,
                                          :initial_velocity_x, :initial_velocity_y, :initial_velocity_z,
                                          thrusts_x: [], thrusts_y: [], thrusts_z: [])

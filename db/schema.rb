@@ -68,13 +68,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_07_201107) do
     t.uuid "simulation_id", null: false
     t.text "name", null: false
     t.text "slug"
+    t.decimal "initial_mass", null: false
+    t.decimal "radius", null: false
     t.decimal "initial_position_x", null: false
     t.decimal "initial_position_y", null: false
     t.decimal "initial_position_z", null: false
     t.decimal "initial_velocity_x", null: false
     t.decimal "initial_velocity_y", null: false
     t.decimal "initial_velocity_z", null: false
-    t.decimal "initial_mass", null: false
     t.decimal "positions_x", default: [], array: true
     t.decimal "positions_y", default: [], array: true
     t.decimal "positions_z", default: [], array: true
