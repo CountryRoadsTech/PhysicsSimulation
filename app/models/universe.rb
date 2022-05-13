@@ -23,7 +23,7 @@
 #  fk_rails_7ac1c0e6f8  (simulation_id => simulations.id)
 #
 class Universe < ApplicationRecord
-  RENDER_SCALE = 1.0/1000.0 # Used to scale down positions when rendering to prevent float overflow errors.
+  RENDER_SCALE = 1.0 / 1000.0 # Used to scale down positions when rendering to prevent float overflow errors.
   belongs_to :simulation, inverse_of: :universe
 
   validates :start_time, :end_time, :timestep, :number_of_timesteps, presence: true
