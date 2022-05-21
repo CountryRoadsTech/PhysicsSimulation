@@ -6,6 +6,7 @@ import { EXRLoader } from 'EXRLoader'
 document.addEventListener("turbo:load", function() {
   const MAX_DISTANCE = 1000000000
   const MODEL_SCALE = 1.0/850.0 // Used to convert scale of models to si units.
+  const LABEL_SIZE = 10000
 
   // Get the HTML Canvas used as the target for the renderer
   const canvas = document.querySelector('#simulation_canvas')
@@ -78,6 +79,31 @@ document.addEventListener("turbo:load", function() {
       var boundingBox = new THREE.BoxHelper(root, 0xff0000)
       boundingBox.update()
       scene.add(boundingBox)
+
+      // Add a 2D text label above the model
+      const canvas = addTextLabel(LABEL_SIZE, physics_body['name']);
+      const texture = new THREE.CanvasTexture(canvas);
+
+      texture.minFilter = THREE.LinearFilter;
+      texture.wrapS = THREE.ClampToEdgeWrapping;
+      texture.wrapT = THREE.ClampToEdgeWrapping;
+
+      const labelMaterial = new THREE.SpriteMaterial({
+        map: texture,
+        transparent: true,
+      });
+
+      const labelGeometry = new THREE.PlaneGeometry(1, 1);
+
+      const label = new THREE.Sprite(labelMaterial);
+
+      root.add(label);
+      label.position.y = root.position.y + (2 * LABEL_SIZE);
+
+      label.scale.x = canvas.width;
+      label.scale.y = canvas.height;
+
+      scene.add(root);
     })
   }
 
@@ -151,5 +177,32 @@ document.addEventListener("turbo:load", function() {
         console.error('Unknown user selection for axes: ' + userSelection)
       }
     }
+  }
+
+  function addTextLabel(size, name) {
+    const borderSize = 2;
+    const ctx = document.createElement('canvas').getContext('2d');
+    const font =  `${size}px bold sans-serif`;
+    ctx.font = font;
+
+    const textWidth = ctx.measureText(name).width;
+    const doubleBorderSize = borderSize * 2;
+    const width = LABEL_SIZE + doubleBorderSize;
+    const height = size + doubleBorderSize;
+    ctx.canvas.width = width;
+    ctx.canvas.height = height;
+
+    ctx.font = font;
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(0, 0, width, height);
+    const scaleFactor = Math.min(1, LABEL_SIZE / textWidth);
+    ctx.translate(width / 2, height / 2);
+    ctx.scale(scaleFactor, 1);
+    ctx.fillStyle = 'white';
+    ctx.fillText(name, borderSize, borderSize);
+
+    return ctx.canvas;
   }
 })
